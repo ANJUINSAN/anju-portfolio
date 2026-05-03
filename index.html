@@ -16,6 +16,20 @@
     --muted: #6b6860;
     --border: rgba(240,237,230,0.08);
     --card: #141414;
+    --nav-bg: rgba(10,10,10,0.85);
+  }
+
+  body.light {
+    --bg: #f5f4f0;
+    --bg2: #eeede8;
+    --bg3: #e6e4de;
+    --accent: #5a9e00;
+    --accent2: #008a6e;
+    --text: #1a1a18;
+    --muted: #7a7870;
+    --border: rgba(26,26,24,0.12);
+    --card: #fafaf7;
+    --nav-bg: rgba(245,244,240,0.92);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -27,6 +41,7 @@
     color: var(--text);
     font-family: 'Instrument Sans', sans-serif;
     overflow-x: hidden;
+    transition: background 0.3s ease, color 0.3s ease;
   }
 
   /* cursor */
@@ -73,7 +88,7 @@
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid var(--border);
-    background: rgba(10,10,10,0.85);
+    background: var(--nav-bg);
     backdrop-filter: blur(16px);
   }
   .nav-logo {
@@ -95,7 +110,23 @@
   }
   .nav-links a:hover { color: var(--accent); }
 
-  /* hero */
+  .theme-toggle {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .theme-toggle:hover { border-color: var(--accent); color: var(--accent); }
+  .theme-icon { font-size: 0.75rem; }
   .hero {
     min-height: 100vh;
     display: grid;
@@ -155,7 +186,7 @@
   .hero-desc {
     font-size: 1rem;
     line-height: 1.8;
-    color: rgba(240,237,230,0.65);
+    color: var(--muted);
     max-width: 440px;
     margin-bottom: 3rem;
   }
@@ -421,7 +452,7 @@
   .skill-desc {
     font-size: 0.85rem;
     line-height: 1.7;
-    color: rgba(240,237,230,0.5);
+    color: var(--muted);
   }
 
   /* experience */
@@ -465,7 +496,7 @@
   .exp-bullets li {
     font-size: 0.88rem;
     line-height: 1.7;
-    color: rgba(240,237,230,0.55);
+    color: var(--muted);
     padding-left: 1.5rem;
     position: relative;
   }
@@ -535,7 +566,7 @@
   .proj-desc {
     font-size: 0.9rem;
     line-height: 1.8;
-    color: rgba(240,237,230,0.55);
+    color: var(--muted);
     margin-bottom: 2rem;
   }
   .proj-stack {
@@ -576,7 +607,7 @@
   }
   .proj-feat-desc {
     font-size: 0.82rem;
-    color: rgba(240,237,230,0.5);
+    color: var(--muted);
     line-height: 1.6;
   }
 
@@ -653,7 +684,7 @@
   .contact-big em { color: var(--accent); font-style: italic; }
   .contact-sub {
     font-size: 0.9rem;
-    color: rgba(240,237,230,0.5);
+    color: var(--muted);
     line-height: 1.8;
     margin-bottom: 2.5rem;
   }
@@ -763,6 +794,10 @@
     <a href="#project">Project</a>
     <a href="#education">Education</a>
     <a href="#contact">Contact</a>
+    <button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">
+      <span class="theme-icon" id="themeIcon">☀</span>
+      <span id="themeLabel">Light</span>
+    </button>
   </div>
 </nav>
 
@@ -1041,9 +1076,9 @@
     </div>
     <div class="reveal">
       <div class="contact-links">
-        <a href="mailto:drbalveersingh85@gmail.com" class="contact-link">
+        <a href="mailto:anjurani100330@gmail.com" class="contact-link">
           <span class="contact-link-icon">@</span>
-          <span class="contact-link-text">drbalveersingh85@gmail.com</span>
+          <span class="contact-link-text">anjurani100330@gmail.com</span>
           <span class="contact-link-label">Email</span>
         </a>
         <a href="tel:+916284186275" class="contact-link">
@@ -1056,7 +1091,7 @@
           <span class="contact-link-text">LinkedIn Profile</span>
           <span class="contact-link-label">LinkedIn</span>
         </a>
-        <a href="https://github.com/ANJUINSAN/anju-portfolio/raw/main/Anju_Rani_QA_Engineer_Resume_v2.pdf" class="contact-link" download>
+        <a href="Anju_Rani_QA_Engineer_Resume_v2.pdf" class="contact-link" download>
           <span class="contact-link-icon">↓</span>
           <span class="contact-link-text">Download Resume</span>
           <span class="contact-link-label">PDF</span>
@@ -1072,6 +1107,21 @@
 </footer>
 
 <script>
+  // theme toggle
+  function toggleTheme() {
+    const body = document.body;
+    const isLight = body.classList.toggle('light');
+    document.getElementById('themeIcon').textContent = isLight ? '☾' : '☀';
+    document.getElementById('themeLabel').textContent = isLight ? 'Dark' : 'Light';
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  }
+  // load saved theme
+  if (localStorage.getItem('theme') === 'light') {
+    document.body.classList.add('light');
+    document.getElementById('themeIcon').textContent = '☾';
+    document.getElementById('themeLabel').textContent = 'Dark';
+  }
+
   // cursor
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
